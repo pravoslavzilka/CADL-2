@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "836890901747",
+    "project_id": "cadl-67336",
+    "storage_bucket": "cadl-67336.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836890901747:android:d55b8e23d59ff29784cb86",
+        "android_client_info": {
+          "package_name": "com.example.cadl_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836890901747-g31upg910p7c5r799nk1j6is65t7lo6g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMHXuctgPOk-HdmlnfIqZaOYCs2O5Y64I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "836890901747-g31upg910p7c5r799nk1j6is65t7lo6g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "836890901747-5fjsc42mfuv6v936p49q91j6mbqi6ia1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.exemple.cadl"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
