@@ -13,10 +13,13 @@ class _LoginPageState extends State<LoginPage> {
   String _email;
   String _password;
 
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   Future<void> addUser(String fullName, String region) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     return users
         .add({
+      'uid': auth.currentUser.uid,
       'full_name': fullName,
       'region': region,
     })
