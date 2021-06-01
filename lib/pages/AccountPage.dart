@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:settings_ui/settings_ui.dart';
 
 
 final FirebaseAuth auth = FirebaseAuth.instance;
@@ -40,20 +41,78 @@ class AccountPage extends StatelessWidget {
         }
         print(snapshot.data.docs[0]["region"]);
         return Scaffold(
-          body: Column(
-            children: [
-              Center(
-                child: Text(
-                  snapshot.data.docs[0]["full_name"],
-                  style: TextStyle(height:3,fontSize: 55),
-                ),
+          appBar: AppBar(
+            title: Text("Account"),
+            backgroundColor: Colors.red,
+            centerTitle: true,
+          ),
+          body:  Container(
+            child: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 35),
+                    child: Center(
+                      child: Text(
+                          snapshot.data.docs[0]["full_name"],
+                          style: TextStyle(fontSize: 35),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(top:50),
+                      child: Card(
+                        child: titleSection,
+                      ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top:10),
+                    child: Card(
+                      child: regionSection(snapshot.data.docs[0]["region"]),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 50),
+                    child: const Card(
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Text('About & Help'),
+                        ),
+                      )
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 2),
+                    child: const Card(
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Text('About region'),
+                          ),
+                        )
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 2),
+                    child: const Card(
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Text('Terms of use'),
+                          ),
+                        )
+                    ),
+                  ),
+                  Center(
+                    child: matBut,
+                  )
+                ],
               ),
-              cusCon,
-              Container(
-                padding: EdgeInsets.only(top: 65.0),
-                child: emailLabel,
-              )
-            ],
+            ),
           )
         );
       },
@@ -61,43 +120,82 @@ class AccountPage extends StatelessWidget {
   }
 }
 
-Widget cusCon = Container(
-  margin: EdgeInsets.all(10),
-  padding: EdgeInsets.all(10),
-  decoration: BoxDecoration(
-      color: Colors.teal[100],
-      border: Border.all(
-          color: Colors.teal[100], // Set border color
-          width: 3.0),   // Set border width
-      borderRadius: BorderRadius.all(
-          Radius.circular(10.0)), // Set rounded corner radius
-      boxShadow: [BoxShadow(blurRadius: 10,color: Colors.black,offset: Offset(1,3))] // Make rounded corner of border
+Widget titleSection = Container(
+  padding: const EdgeInsets.all(32),
+  child: Row(
+    children: [
+      Expanded(
+        /*1*/
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /*2*/
+            Container(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Text(
+                'Email',
+                style: TextStyle(
+                  color: Colors.grey[500],
+                ),
+              ),
+            ),
+            Text(
+              auth.currentUser.email,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+      /*3*/
+      Icon(
+        Icons.edit,
+        color: Colors.red[500],
+      ),
+    ],
   ),
-  child: Text("My demo styling"),
 );
 
-Widget emailLabel = Container(
-    padding: EdgeInsets.all(10),
-    alignment: Alignment.center,
-    decoration: BoxDecoration(
-      color: Colors.teal[100],
-      border: Border.all(
-          width: 3.0,
-        color: Colors.teal[100]
-      ),
-      borderRadius: BorderRadius.all(
-          Radius.circular(25)
-      ),
-      boxShadow: [BoxShadow(blurRadius: 2,color: Colors.black,offset: Offset(1,3))]
+
+Widget regionSection(String region) {
+  return Container(
+    padding: const EdgeInsets.all(32),
+    child: Row(
+      children: [
+        Expanded(
+          /*1*/
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /*2*/
+              Container(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  'Region',
+                  style: TextStyle(
+                    color: Colors.grey[500],
+                  ),
+                ),
+              ),
+              Text(
+                region,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        /*3*/
+        Icon(
+          Icons.edit,
+          color: Colors.red[500],
+        ),
+      ],
     ),
-    child: Text(
-      auth.currentUser.email,
-      style: TextStyle(
-          fontSize: 16
-      ),
-    )
-);
-
+  );
+}
 
 Widget matBut = MaterialButton(
   child: Text("Sign out"),
