@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'AccountPage.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'side_pages/SingleNewPage.dart';
+
 
 
 class CameraPage extends StatelessWidget {
@@ -42,9 +44,7 @@ class CameraPage extends StatelessWidget {
                 ListTile(
                   title: Text('Item 2'),
                   onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
+
                     Navigator.pop(context);
                   },
                 ),
@@ -72,24 +72,22 @@ class CameraPage extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
                     children: <Widget>[
-                      listItem,
-                      Container(
-                        width: 160.0,
-                        color: Colors.blue,
-                      ),
-                      Container(
-                        width: 160.0,
-                        color: Colors.green,
-                      ),
-                      Container(
-                        width: 160.0,
-                        color: Colors.yellow,
-                      ),
-                      Container(
-                        width: 160.0,
-                        color: Colors.orange,
-                      ),
+                      listItem(context,"Vodiči, pripravte si pevné nervy! Na bratislavských cestách sa zdržíte"),
+                      listItem(context,"Ako bude Bratislava parkovať od októbra"),
+                      listItem(context,"Otázniky nad Vallovým magistrátom"),
+                      listItem(context,"Otvorili novú časť nultého obchvatu Bratislavy, prepojí Raču a Svätý Jur"),
+                      listItem(context,"V Bratislave pribudli staré fotografie mesta ako pocta Antonovi Šmotlákovi"),
                     ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 40,bottom: 25, left:10),
+                  child: Text(
+                    "Upcoming Events",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontFamily: "Times",
+                    ),
                   ),
                 ),
               ],
@@ -100,38 +98,45 @@ class CameraPage extends StatelessWidget {
   }
 }
 
-Widget listItem = Container(
-  width: 250,
-  margin: EdgeInsets.only(right:10, left: 10),
-  child: Card(
-    elevation: 10,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15.0),
-    ),
-    child: InkWell(
-      splashColor: Colors.blue.withAlpha(30),
-      onTap: () {
-        print("hi");
-      },
-      child: SizedBox(
-        child: Column(
-          children: [
-            ListTile(
-              title: Container(
-                padding: EdgeInsets.only(top: 10,bottom: 10),
-                child: Text(
-                  "Vodiči, pripravte si pevné nervy! Na bratislavských cestách sa zdržíte",
-                  style: TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.bold,
+Widget listItem (context, String title) {
+  String content = "Nábeh bude určite postupný. Naraz sa to ani nedá spustiť – žiadne mesto na svete nespustilo parkovaciu politiku naraz. Sme v úzkom kontakte s mestami, ktoré spúšťali parkovaciu politiku na Slovensku – komunikujeme s Trenčínom, ktorý má momentálne spustených osem zón, v Česku má s parkovacou politikou skúsenosti mnoho miest… Napríklad v Brne spúšťajú zóny každého štvrť roka. Komunikujeme aj s mestom Praha, s Budapešťou, Ľubľanou, Viedňou, ktorá práve ohlasovala rozšírenie zón.";
+  return Container(
+    width: 250,
+    margin: EdgeInsets.only(right: 10, left: 10),
+    child: Card(
+      elevation: 10,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: InkWell(
+        splashColor: Colors.blue.withAlpha(30),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SingleNewPage(title, content)),
+          );
+        },
+        child: SizedBox(
+          child: Column(
+            children: [
+              ListTile(
+                title: Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
+                subtitle: Text("2.5. 2021"),
               ),
-              subtitle: Text("2.5. 2021"),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     ),
-  ),
-);
+  );
+}
