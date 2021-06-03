@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 
 final FirebaseAuth auth = FirebaseAuth.instance;
@@ -39,7 +38,6 @@ class AccountPage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Text("Loading");
         }
-        print(snapshot.data.docs[0]["region"]);
         return Scaffold(
           appBar: AppBar(
             title: Text("Account"),
@@ -48,7 +46,7 @@ class AccountPage extends StatelessWidget {
           ),
           body:  Container(
             child: SafeArea(
-              child: Column(
+              child: ListView(
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 35),
@@ -96,7 +94,7 @@ class AccountPage extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 2),
+                    padding: EdgeInsets.only(top: 2, bottom: 50),
                     child: const Card(
                         child: Align(
                           alignment: Alignment.topLeft,
@@ -197,7 +195,10 @@ Widget regionSection(String region) {
   );
 }
 
-Widget matBut = MaterialButton(
+Widget matBut = ElevatedButton(
+  style: ElevatedButton.styleFrom(
+    primary: Colors.blue,
+  ),
   child: Text("Sign out"),
   onPressed: () async {
     await FirebaseAuth.instance.signOut();

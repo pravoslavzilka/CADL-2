@@ -128,7 +128,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             label: "Account",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.photo_camera),
+            icon: Icon(Icons.home),
             label: "Record",
           ),
           BottomNavigationBarItem(
