@@ -61,21 +61,18 @@ class CameraPage extends StatelessWidget {
                   child: Text(
                       "News in Region",
                       style: TextStyle(
-                        fontSize: 25,
+                        fontSize: 30,
                         fontFamily: "Times",
                       ),
                   ),
                 ),
                 Container(
-                  height: 250,
+                  height: 150,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
                     children: <Widget>[
-                      Container(
-                        width: 160.0,
-                        color: Colors.orange,
-                      ),
+                      listItem,
                       Container(
                         width: 160.0,
                         color: Colors.blue,
@@ -102,3 +99,39 @@ class CameraPage extends StatelessWidget {
     );
   }
 }
+
+Widget listItem = Container(
+  width: 250,
+  margin: EdgeInsets.only(right:10, left: 10),
+  child: Card(
+    elevation: 10,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15.0),
+    ),
+    child: InkWell(
+      splashColor: Colors.blue.withAlpha(30),
+      onTap: () {
+        print("hi");
+      },
+      child: SizedBox(
+        child: Column(
+          children: [
+            ListTile(
+              title: Container(
+                padding: EdgeInsets.only(top: 10,bottom: 10),
+                child: Text(
+                  "Vodiči, pripravte si pevné nervy! Na bratislavských cestách sa zdržíte",
+                  style: TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              subtitle: Text("2.5. 2021"),
+            ),
+          ],
+        ),
+      ),
+    ),
+  ),
+);
