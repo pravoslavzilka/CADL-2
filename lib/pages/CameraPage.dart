@@ -42,9 +42,20 @@ class CameraPage extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  title: Text('Item 2'),
+                  title: Text('About'),
                   onTap: () {
-
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text('Help'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text('Terms of use'),
+                  onTap: () {
                     Navigator.pop(context);
                   },
                 ),
@@ -90,6 +101,18 @@ class CameraPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                Container(
+                  height: 150,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
+                    children: <Widget>[
+                      eventItem(context, "Vianočné trhy", "25.5. 2021","Sad Janka Kráľa"),
+                      eventItem(context, "Vinobranie", "30.8. 2021","Vajnory"),
+                      eventItem(context, "Veľké hody", "2.10. 2021 - 7.10. 2021","Rača")
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -97,6 +120,71 @@ class CameraPage extends StatelessWidget {
     );
   }
 }
+
+Widget eventItem (context, String title, String date, String location) {
+  return Container(
+    width: 250,
+    margin: EdgeInsets.only(right: 10, left: 10),
+    child: Card(
+      elevation: 10,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: InkWell(
+        splashColor: Colors.blue.withAlpha(30),
+        onTap: () {},
+        child: SizedBox(
+          child: Column(
+            children: [
+              Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 10),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Icon(Icons.schedule),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text(date),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 5),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Icon(Icons.place),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text(location),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+
+}
+
 
 Widget listItem (context, String title) {
   String content = "Nábeh bude určite postupný. Naraz sa to ani nedá spustiť – žiadne mesto na svete nespustilo parkovaciu politiku naraz. Sme v úzkom kontakte s mestami, ktoré spúšťali parkovaciu politiku na Slovensku – komunikujeme s Trenčínom, ktorý má momentálne spustených osem zón, v Česku má s parkovacou politikou skúsenosti mnoho miest… Napríklad v Brne spúšťajú zóny každého štvrť roka. Komunikujeme aj s mestom Praha, s Budapešťou, Ľubľanou, Viedňou, ktorá práve ohlasovala rozšírenie zón.";

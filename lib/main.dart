@@ -129,7 +129,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: "Record",
+            label: "Home",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.mail),
