@@ -112,17 +112,6 @@ class CameraPage extends StatelessWidget {
                     child: ListView(
                       children: <Widget> [
                         Container(
-                            padding: EdgeInsets.only(top: 20,left: 10,),
-                            child: Center(
-                              child: Text(
-                                "Zamračené 8°C",
-                                style: TextStyle(
-                                    fontSize: 30
-                                ),
-                              ),
-                            )
-                        ),
-                        Container(
                           padding: EdgeInsets.only(top: 50,bottom: 25, left:10),
                           child: Text(
                             "News in Region",
@@ -164,6 +153,29 @@ class CameraPage extends StatelessWidget {
                             }).toList(),
                           ),
                         ),
+                        Container(
+                          padding: EdgeInsets.only(top: 40,bottom: 25, left:10),
+                          child: Text(
+                            "About Region",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontFamily: "Times",
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 70,
+                          margin: EdgeInsets.only(bottom: 50),
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            physics: BouncingScrollPhysics(),
+                            children: <Widget>[
+                              aboutItem(context, "History"),
+                              aboutItem(context, "Personalities"),
+                              aboutItem(context, "Vision"),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -174,6 +186,40 @@ class CameraPage extends StatelessWidget {
         }
         );
   }
+}
+
+Widget aboutItem (context, String title) {
+  return Container(
+    width: 250,
+    margin: EdgeInsets.only(right: 10, left: 10),
+    child: Card(
+      elevation: 10,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+        side: new BorderSide(color: Colors.red, width: 2.0),
+      ),
+      child: InkWell(
+        splashColor: Colors.blue.withAlpha(30),
+        onTap: () {},
+        child: SizedBox(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: 20, bottom: 10),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 
