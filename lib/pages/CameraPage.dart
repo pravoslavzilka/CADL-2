@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:async/async.dart';
+import 'package:add_2_calendar/add_2_calendar.dart';
 
 import 'AccountPage.dart';
 import 'side_pages/SingleNewPage.dart';
@@ -11,7 +11,7 @@ import 'side_pages/SingleNewPage.dart';
 class CameraPage extends StatelessWidget {
 
   final Stream<QuerySnapshot> _articlesStream = FirebaseFirestore.instance.collection('articles').orderBy('Date').snapshots();
-  final Stream<QuerySnapshot> _recordsStream = FirebaseFirestore.instance.collection('records').snapshots();
+  final Stream<QuerySnapshot> _eventsStream = FirebaseFirestore.instance.collection('events').orderBy('Start').snapshots();
 
 
   @override
@@ -34,118 +34,165 @@ class CameraPage extends StatelessWidget {
             ),
           );
         }
-        return Scaffold(
-            appBar: AppBar(
-              title: Text("Home"),
-              backgroundColor: Colors.red[800],
-              centerTitle: true,
-            ),
-            drawer: Container(
-              width: 250,
-              child: Drawer(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(top:20),
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            Icon(Icons.account_circle),
-                            Container(
-                              margin: EdgeInsets.only(left:20),
-                              child:Text("Your account"),
+        return StreamBuilder(
+          stream: _eventsStream,
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+            if (snapshot2.hasError) {
+              return Scaffold(
+                body: Center(
+                  child: Text("Something went wrong..."),
+                ),
+              );
+            }
+
+            if (snapshot2.connectionState == ConnectionState.waiting) {
+              return Scaffold(
+                body: Center(
+                  child: Text("Loading..."),
+                ),
+              );
+            }
+
+            return Scaffold(
+                appBar: AppBar(
+                  title: Text("Home"),
+                  backgroundColor: Colors.red[800],
+                  centerTitle: true,
+                ),
+                drawer: Container(
+                  width: 250,
+                  child: Drawer(
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(top:20),
+                          child: ListTile(
+                            title: Row(
+                              children: [
+                                Icon(Icons.account_circle),
+                                Container(
+                                  margin: EdgeInsets.only(left:20),
+                                  child:Text("Your account"),
+                                )
+                              ],
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => AccountPage()),
+                              );
+                            },
+                          ),
+                        ),
+                        ListTile(
+                          title: Text('About'),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        ListTile(
+                          title: Text('Help'),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        ListTile(
+                          title: Text('Terms of use'),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                body: Center(
+                  child: SafeArea(
+                    child: ListView(
+                      children: <Widget> [
+                        Container(
+                            padding: EdgeInsets.only(top: 20,left: 10,),
+                            child: Center(
+                              child: Text(
+                                "Zamračené 8°C",
+                                style: TextStyle(
+                                    fontSize: 30
+                                ),
+                              ),
                             )
-                          ],
                         ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => AccountPage()),
-                          );
-                        },
-                      ),
-                    ),
-                    ListTile(
-                      title: Text('About'),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    ListTile(
-                      title: Text('Help'),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    ListTile(
-                      title: Text('Terms of use'),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            body: Center(
-              child: SafeArea(
-                child: ListView(
-                  children: <Widget> [
-                    Container(
-                      padding: EdgeInsets.only(top: 40,bottom: 25, left:10),
-                      child: Text(
-                        "News in Region",
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontFamily: "Times",
+                        Container(
+                          padding: EdgeInsets.only(top: 50,bottom: 25, left:10),
+                          child: Text(
+                            "News in Region",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontFamily: "Times",
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Container(
-                      height: 150,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
-                        children: snapshot.data.docs.map((DocumentSnapshot document) {
-                          return listItem(
-                              context, document.data()['Title'],document.data()['Content'],document.data()['Date'],document.data()['url_address'],);
-                        }).toList(),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 40,bottom: 25, left:10),
-                      child: Text(
-                        "Upcoming Events",
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontFamily: "Times",
+                        Container(
+                          height: 150,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            physics: BouncingScrollPhysics(),
+                            children: snapshot.data.docs.map((DocumentSnapshot document) {
+                              return listItem(
+                                context, document.data()['Title'],document.data()['Content'],document.data()['Date'],document.data()['url_address'],);
+                            }).toList(),
+                          ),
                         ),
-                      ),
+                        Container(
+                          padding: EdgeInsets.only(top: 40,bottom: 25, left:10),
+                          child: Text(
+                            "Upcoming Events",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontFamily: "Times",
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 150,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            physics: BouncingScrollPhysics(),
+                            children: snapshot2.data.docs.map((DocumentSnapshot document) {
+                              return eventItem(
+                                context, document.data()['Title'],document.data()['Location'],document.data()['Start'],document.data()['End'],document.data()['actual_start_time'],document.data()['actual_end_time']);
+                            }).toList(),
+                          ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      height: 150,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
-                        children: <Widget>[
-                          eventItem(context, "Vianočné trhy", "25.5. 2021","Sad Janka Kráľa"),
-                          eventItem(context, "Vinobranie", "30.8. 2021","Vajnory"),
-                          eventItem(context, "Veľké hody", "2.10. 2021 - 7.10. 2021","Rača")
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
+                  ),
+                )
+            );
+          },
         );
-      },
-    );
+        }
+        );
   }
 }
 
-Widget eventItem (context, String title, String date, String location) {
+
+Widget eventItem (context, String title, String location, String start, String end, String aStart, String aEnd) {
+  String endTimeFinal;
+  String dateSpace;
+  if (end == "") {
+    endTimeFinal = aStart;
+    dateSpace = " ";
+  } else {
+    endTimeFinal = aEnd;
+    dateSpace = " - ";
+  }
+  final Event event = Event(
+    title: title,
+    location: location,
+    startDate: DateTime.parse(aStart),
+    endDate: DateTime.parse(endTimeFinal)
+  );
   return Container(
     width: 250,
     margin: EdgeInsets.only(right: 10, left: 10),
@@ -157,7 +204,9 @@ Widget eventItem (context, String title, String date, String location) {
       ),
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
-        onTap: () {},
+        onTap: () {
+          Add2Calendar.addEvent2Cal(event);
+        },
         child: SizedBox(
           child: Column(
             children: [
@@ -181,7 +230,7 @@ Widget eventItem (context, String title, String date, String location) {
                     ),
                     Container(
                       padding: EdgeInsets.only(left: 10),
-                      child: Text(date),
+                      child: Text(start + dateSpace + end),
                     ),
                   ],
                 ),
