@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-const _url = 'https://flutter.dev';
 
 class SingleNewPage extends StatelessWidget {
 
-  SingleNewPage(this.title,this.content);
+  SingleNewPage(this.title,this.content,this.date,this.urlAddress);
 
   final String title;
   final String content;
+  final String date;
+  final String urlAddress;
 
-  void _launchURL() async =>
-      await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +48,9 @@ class SingleNewPage extends StatelessWidget {
           Center(
             child: MaterialButton(
               child: Text("View full article"),
-              onPressed: _launchURL,
+              onPressed: () {
+                launch(urlAddress);
+              },
             ),
           )
         ],
